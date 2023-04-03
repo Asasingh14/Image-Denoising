@@ -20,6 +20,13 @@ This function implements a basic denoising algorithm that averages the color val
 This function implements an improved denoising algorithm using a Gaussian blur technique. 
 It generates a Gaussian kernel matrix and applies it to each pixel and its neighbors in the input image to reduce noise.
 
+## Tech Info
+
+The code is in src.
+Noisy images are found in test_file directory.
+Processed images are found in res_dump with names xx.jpeg, xx_par.jpeg, xx_imp.jpeg depending on the function used to denoise it.
+AI denoised images have also been included to show some baseline for the performance of denoising algorithms.
+
 ## Conclusion from project
 
 These denoising functions provide a simple and efficient way to reduce noise in images. 

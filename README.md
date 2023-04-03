@@ -20,16 +20,16 @@ This function implements a basic denoising algorithm that averages the color val
 This function implements an improved denoising algorithm using a Gaussian blur technique. 
 It generates a Gaussian kernel matrix and applies it to each pixel and its neighbors in the input image to reduce noise.
 
-## Tech Info
+## Basic Info
 
-The code is in src.
-Noisy images are found in test_file directory.
-Processed images are found in res_dump with names xx.jpeg, xx_par.jpeg, xx_imp.jpeg depending on the function used to denoise it.
-AI denoised images have also been included to show some baseline for the performance of denoising algorithms.
+The code is in found src. <br>
+Noisy images are found in test_file directory. <br>
+Processed images are found in res_dump with names xx.jpeg, xx_par.jpeg, xx_imp.jpeg depending on the function used to denoise it. <br>
+AI denoised images have also been included to show some baseline for the performance of denoising algorithms. <br>
 
 ## Conclusion from project
 
-These denoising functions provide a simple and efficient way to reduce noise in images. 
-The basic denoising function (denoise_image) offers a simple averaging approach and is fast enough for smaller batches.
-The basic denoising function in parallel (denoise_image_par) offers the same as above but we do not see the full benefit of parallel computing as the workload is not large enough.
-while the improved denoising function (denoise_image_imp) utilizes Gaussian blur for better noise reduction and is blaZingly fast for the quality if offers.
+These denoising functions provide a simple and efficient way to reduce noise in images. <br>
+The basic denoising function (denoise_image) offers a simple averaging approach and is fast enough for smaller batches.<br>
+The basic denoising function in parallel (denoise_image_par) offers the same as above but we do not see the full benefit of parallel computing as the workload is not large enough.<br>
+The improved denoising function (denoise_image_imp) utilizes Gaussian blur for better noise reduction and is blaZingly fast for the quality if offers.<br>

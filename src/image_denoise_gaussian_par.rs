@@ -1,21 +1,37 @@
 use std::path::Path;
 
 use image::{DynamicImage, GenericImageView, ImageBuffer, Rgb};
+use rayon::prelude::*;
 
-pub fn denoise_image_imp(input_path: &str, output_path: &str, kernel_radius: f32, sigma: f32) {
+use rayon::prelude::*;
+
+pub fn denoise_image_gaussian_par(input_path: &str, output_path: &str, kernel_radius: f32, sigma: f32) { //Changed only this part to parallel
     let image = image::open(&Path::new(input_path)).unwrap();
     let (width, height) = image.dimensions();
 
     let kernel = create_gaussian_kernel(kernel_radius, sigma);
 
-    let denoised_image: ImageBuffer<Rgb<u8>, Vec<u8>> = ImageBuffer::from_fn(width, height, |x, y| {
-        let neighbors = get_neighbors(&image, x as i32, y as i32, kernel_radius as i32);
-        let weighted_color = apply_kernel(&neighbors, &kernel);
-        Rgb([weighted_color[0], weighted_color[1], weighted_color[2]])
-    });
+    let mut denoised_image: ImageBuffer<Rgb<u8>, Vec<u8>> = ImageBuffer::new(width, height);
+
+    denoised_image
+        .as_mut()
+        .par_chunks_mut(3)
+        .enumerate()
+        .for_each(|(idx, pixel)| {
+            let x = (idx as u32) % width;
+            let y = (idx as u32) / width;
+
+            let neighbors = get_neighbors(&image, x as i32, y as i32, kernel_radius as i32);
+            let weighted_color = apply_kernel(&neighbors, &kernel);
+            pixel[0] = weighted_color[0];
+            pixel[1] = weighted_color[1];
+            pixel[2] = weighted_color[2];
+        });
 
     denoised_image.save(output_path).unwrap();
 }
+
+
 
 fn get_neighbors(image: &DynamicImage, x: i32, y: i32, radius: i32) -> Vec<(i32, i32, [u8; 3])> {
     let width = image.width() as i32;
@@ -85,4 +101,3 @@ fn apply_kernel(neighbors: &[(i32, i32, [u8; 3])], kernel: &[Vec<f32>]) -> [u8; 
         b_sum.clamp(0.0, 255.0) as u8,
     ]
 }
-

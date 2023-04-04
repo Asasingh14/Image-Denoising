@@ -13,7 +13,7 @@ pub fn denoise_image(input_path: &str, output_path: &str) {
     //Get dimensions of image
     let (width, height) = image.dimensions();
 
-    // Create a new image buffer with the same dimensions as the input image
+    // Create a new image buffer with the same dimensions as the input image and add the processed pixels
     let denoised_image: ImageBuffer<Rgb<u8>, Vec<u8>> = ImageBuffer::from_fn(width, height, |x, y| {
         //Get neighbouring pixels for each pixel
         let neighbors = get_neighbors(&image, x as i32, y as i32);

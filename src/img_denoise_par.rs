@@ -18,7 +18,7 @@ pub fn denoise_image_par(input_path: &str, output_path: &str) {
     // Use Rayon's parallel iterator to process each pixel in parallel
     denoised_image
         .enumerate_pixels_mut()
-        .par_bridge() // As image buffer cannot use par_iter() so hv to use par_bridge()
+        .par_bridge() // As image buffer cannot use par_iter() so hv to use enumerate_pixels_mut() and par_bridge()
         .for_each(|(x, y, pixel)| {
             // Get neighbouring pixels for each pixel
             let neighbors = get_neighbors(&image, x as i32, y as i32);

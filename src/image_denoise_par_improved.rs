@@ -3,7 +3,7 @@ use rayon::prelude::*;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 
-pub fn denoise_image_par_imp(input_path: &str, output_path: &str) {//Got help from CHAT-GPT and read alot of stackoverflow
+pub fn denoise_image_par_imp(input_path: &str, output_path: &str) {//Got help from CHAT-GPT
     // Open image and get pixel data, width and height vals
     let image = image::open(&Path::new(input_path)).unwrap();
     // Get dimensions of image

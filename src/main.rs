@@ -10,18 +10,24 @@ mod img_denoise_par;
 
 fn main() {
     println!("Hello, world!");
+    println!("Funpar Project: Image Denoising");
+    println!("Times: ");
 
-    let mut start = Instant::now();
+    let start = Instant::now();
     test_img_denoise(); //Basic Denoise
     println!("Basic Denoise time: {:?}", Instant::now() - start);
 
-    let mut start = Instant::now();
+    let start = Instant::now();
     test_img_denoise_par();//Basic Denoise Parallel
     println!("Basic Denoise parallel time: {:?}", Instant::now() - start);
 
-    let mut start = Instant::now();
+    let start = Instant::now();
     test_img_denoise_imp(); //Gaussian Denoise
     println!("Gaussian Denoise time: {:?}", Instant::now() - start);
+
+    // let start = Instant::now();
+    // test_img_denoise_imp_par(); //Gaussian Denoise //Need to implement
+    // println!("Gaussian Denoise time: {:?}", Instant::now() - start);
 }
 
 fn test_img_denoise() {
@@ -81,6 +87,14 @@ fn test_img_denoise_imp() {
     let input_file_1 = "test_file/image1.jpeg";
     let output_file_1 = "res_dump/out1_imp.jpeg";
     denoise_image_imp(input_file_1, output_file_1, 1.5, 1.0);
+
+    let input_file_1 = "test_file/image1.jpeg";
+    let output_file_1 = "res_dump/out1_imp_test_sigma.jpeg";
+    denoise_image_imp(input_file_1, output_file_1, 1.5, 5.0);
+
+    let input_file_1 = "test_file/image1.jpeg";
+    let output_file_1 = "res_dump/out1_imp_test_kernel.jpeg";
+    denoise_image_imp(input_file_1, output_file_1, 3.0, 1.0);
 
     let input_file_2 = "test_file/image2.jpg";
     let output_file_2 = "res_dump/out2_imp.jpeg";

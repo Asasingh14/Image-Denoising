@@ -7,8 +7,9 @@ use rayon::prelude::*;
 
 pub fn denoise_image(input_path: &str, output_path: &str) {
 
-    //Open image
+    //Open image and get pixel data, width and height vals
     let image = image::open(&Path::new(input_path)).unwrap();
+
     //Get dimensions of image
     let (width, height) = image.dimensions();
 

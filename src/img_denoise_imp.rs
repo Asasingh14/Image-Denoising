@@ -1,5 +1,6 @@
-use image::{DynamicImage, GenericImageView, ImageBuffer, Rgb};
 use std::path::Path;
+
+use image::{DynamicImage, GenericImageView, ImageBuffer, Rgb};
 
 pub fn denoise_image_imp(input_path: &str, output_path: &str, kernel_radius: f32, sigma: f32) {
     let image = image::open(&Path::new(input_path)).unwrap();
@@ -21,8 +22,8 @@ fn get_neighbors(image: &DynamicImage, x: i32, y: i32, radius: i32) -> Vec<(i32,
     let height = image.height() as i32;
     let mut neighbors = Vec::new();
 
-    for dy in -radius..=radius {
-        for dx in -radius..=radius {
+    for dy in -radius..=radius { //Make sure it gets like a circular area around the point x
+        for dx in -radius..=radius { //Make sure it gets like a circular area around the point y
             let nx = x + dx;
             let ny = y + dy;
 
@@ -44,7 +45,10 @@ fn create_gaussian_kernel(radius: f32, sigma: f32) -> Vec<Vec<f32>> {
     for y in -radius_i..=radius_i {
         let mut row = Vec::new();
         for x in -radius_i..=radius_i {
+
+            //Formula to find gaussian weightage
             let gaussian = (-(x.pow(2) + y.pow(2)) as f32 / (2.0 * sigma.powi(2))).exp() / (2.0 * std::f32::consts::PI * sigma.powi(2));
+
             row.push(gaussian);
             sum += gaussian;
         }
@@ -60,6 +64,8 @@ fn create_gaussian_kernel(radius: f32, sigma: f32) -> Vec<Vec<f32>> {
     kernel
 }
 
+
+//Like average_color but using kernel(weightage)
 fn apply_kernel(neighbors: &[(i32, i32, [u8; 3])], kernel: &[Vec<f32>]) -> [u8; 3] {
     let mut r_sum = 0.0;
     let mut g_sum = 0.0;

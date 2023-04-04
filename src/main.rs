@@ -1,5 +1,4 @@
 use std::fs;
-use std::io::Result;
 use std::path::Path;
 use std::time::Instant;
 
@@ -25,7 +24,6 @@ fn main() {
     let mut start = Instant::now();
     test_img_denoise_imp(); //Gaussian Denoise
     println!("Gaussian Denoise time: {:?}", Instant::now() - start);
-
 }
 
 fn test_img_denoise() {
@@ -46,13 +44,13 @@ fn test_img_denoise() {
     let output_file_4 = "res_dump/out4.jpeg";
     denoise_image(input_file_4, output_file_4);
 
-    let input_file_4 = "test_file/image5.jpg";
-    let output_file_4 = "res_dump/out5.jpeg";
-    denoise_image(input_file_4, output_file_4);
+    let input_file_5 = "test_file/image5.jpg";
+    let output_file_5 = "res_dump/out5.jpeg";
+    denoise_image(input_file_5, output_file_5);
 
-    let input_file_4 = "test_file/image6.jpg";
-    let output_file_4 = "res_dump/out6.jpeg";
-    denoise_image(input_file_4, output_file_4);
+    let input_file_6 = "test_file/image6.jpg";
+    let output_file_6 = "res_dump/out6.jpeg";
+    denoise_image(input_file_6, output_file_6);
 }
 
 fn test_img_denoise_par() {
@@ -68,18 +66,17 @@ fn test_img_denoise_par() {
     let output_file_3 = "res_dump/out3_par.jpeg";
     denoise_image_par(input_file_3, output_file_3);
 
-
     let input_file_4 = "test_file/image4.jpg";
     let output_file_4 = "res_dump/out4_par.jpeg";
     denoise_image_par(input_file_4, output_file_4);
 
-    let input_file_4 = "test_file/image5.jpg";
-    let output_file_4 = "res_dump/out5_par.jpeg";
-    denoise_image_par(input_file_4, output_file_4);
+    let input_file_5 = "test_file/image5.jpg";
+    let output_file_5 = "res_dump/out5_par.jpeg";
+    denoise_image_par(input_file_5, output_file_5);
 
-    let input_file_4 = "test_file/image6.jpg";
-    let output_file_4 = "res_dump/out6_par.jpeg";
-    denoise_image_par(input_file_4, output_file_4);
+    let input_file_6 = "test_file/image6.jpg";
+    let output_file_6 = "res_dump/out6_par.jpeg";
+    denoise_image_par(input_file_6, output_file_6);
 }
 
 fn test_img_denoise_imp() {
@@ -106,5 +103,4 @@ fn test_img_denoise_imp() {
     let input_file_6 = "test_file/image6.jpg";
     let output_file_6 = "res_dump/out6_imp.jpeg";
     denoise_image_imp(input_file_6, output_file_6, 1.5, 1.0);
-
 }

@@ -1,6 +1,7 @@
 use std::fs::File;
-use image::{GenericImageView, ImageBuffer, Rgb};
 use std::path::Path;
+
+use image::{GenericImageView, ImageBuffer, Rgb};
 use image::codecs::jpeg::JpegEncoder;
 use rayon::prelude::*;
 
@@ -17,7 +18,7 @@ pub fn denoise_image_par(input_path: &str, output_path: &str) {
     // Use Rayon's parallel iterator to process each pixel in parallel
     denoised_image
         .enumerate_pixels_mut()
-        .par_bridge()
+        .par_bridge() // As image buffer cannot use par_iter() so hv to use par_bridge()
         .for_each(|(x, y, pixel)| {
             // Get neighbouring pixels for each pixel
             let neighbors = get_neighbors(&image, x as i32, y as i32);
@@ -48,10 +49,10 @@ fn get_neighbors(image: &image::DynamicImage, x: i32, y: i32) -> Vec<[u8; 3]> {
     dx.par_iter()
         .zip(dy.par_iter())
         .filter_map(|(&dx, &dy)| {
-            let nx = x + dx;
-            let ny = y + dy;
+            let nx = x + dx; //Get x coord nbr
+            let ny = y + dy; //Get y coord nbr
 
-            if nx >= 0 && ny >= 0 && nx < width && ny < height {
+            if nx >= 0 && ny >= 0 && nx < width && ny < height { //Check if x and y nbr exists
                 let pixel = image.get_pixel(nx as u32, ny as u32);
                 Some([pixel[0], pixel[1], pixel[2]])
             } else {
@@ -68,7 +69,7 @@ fn average_color(neighbors: &Vec<[u8; 3]>) -> [u8; 3] {
     let mut b_sum = 0;
 
     //Sum the red, green, and blue components of all colors
-    for color in neighbors {
+    for color in neighbors { //Used seq as data race can occur
         r_sum += color[0] as u32;
         g_sum += color[1] as u32;
         b_sum += color[2] as u32;

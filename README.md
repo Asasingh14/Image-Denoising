@@ -1,6 +1,3 @@
-# funpar-t2-22-project-name_here
-funpar-t2-22-project-name_here created by GitHub Classroom
-
 # Image Denoising Project
 
 ## 2 techniques are used

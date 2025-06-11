@@ -1,10 +1,40 @@
 [package]
-name = "image_proj"
-version = "0.1.0"
+name = "image-denoising"
+version = "0.2.0"
 edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "High-performance image denoising implementation in Rust with parallel processing and advanced algorithms"
+repository = "https://github.com/yourusername/image-denoising"
+readme = "README.md"
+license = "MIT"
+keywords = ["image-processing", "denoising", "computer-vision", "parallel-computing", "rust"]
+categories = ["multimedia::images", "algorithms", "science::visualization"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rayon = "1.7.0"
-image = "0.24.1"
+image = "0.24.7"
+rayon = "1.8.0"
+num = "0.4.1"
+num-traits = "0.2.17"
+num-derive = "0.4.1"
+clap = { version = "4.4.11", features = ["derive"] }
+indicatif = "0.17.7"
+anyhow = "1.0.75"
+thiserror = "1.0.50"
+rand = "0.8.5"
+
+[dev-dependencies]
+criterion = "0.5"
+pretty_assertions = "1.4.0"
+
+[[bench]]
+name = "denoising_benchmarks"
+harness = false
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+opt-level = 3
+debug = false

@@ -1,37 +1,125 @@
-# Image Denoising Project
+# Image Denoising in Rust
 
-## 2 techniques are used
+A high-performance image denoising implementation showcasing various algorithms and parallel processing techniques in Rust. This project demonstrates computer vision concepts, parallel computing, and modern Rust programming practices.
 
-1.0) Basic Denoise (denoise_image)
+## Table of Contents
+- [Features](#features)
+- [Implementation Details](#implementation-details)
+  - [Original Implementations](#original-implementations)
+  - [Improved Implementations](#improved-implementations)
+- [Usage](#usage)
+- [Learning Outcomes](#learning-outcomes)
+- [Running Benchmarks](#running-benchmarks)
+- [License](#license)
 
-This function implements a basic denoising algorithm that averages the color values of a pixel's neighbors to reduce noise.
+## Features
 
-1.1) Basic Denoise in Parallel (denoise_image_par)
+- **Basic Denoising**: Simple averaging-based noise reduction
+- **Gaussian Denoising**: Advanced noise reduction using Gaussian kernels
+- **Bilateral Filtering**: Edge-preserving noise reduction
+- **LAB Color Space Processing**: Improved color preservation
+- **Parallel Processing**: Multi-threaded implementations using Rayon
 
-This function implements a basic denoising algorithm that averages the color values of a pixel's neighbors to reduce noise in parallel
+## Implementation Details
 
-1.3) Improved Basic Denoise in Parallel (denoise_image_par_imp)
+### Original Implementations
+Located in `src/original/`:
 
-An improved version of the denoise_image_par() function
+1. **Basic Denoising** (`img_denoise.rs`)
+   - Simple averaging of neighboring pixels
+   - Configurable kernel radius
+   - Sequential processing
 
-2.0) Gaussian Denoise (denoise_image_gaussian)
+2. **Basic Parallel Denoising** (`img_denoise_par.rs`)
+   - Parallel version of basic denoising
+   - Uses Rayon for thread management
+   - Configurable thread count
 
-This function implements an improved denoising algorithm using a Gaussian blur technique. <br>
-It generates a Gaussian kernel matrix and applies it to each pixel and its neighbors in the input image to reduce noise.
+3. **Gaussian Denoising** (`img_denoise_gaussian.rs`)
+   - Gaussian kernel-based denoising
+   - Configurable sigma and kernel radius
+   - Sequential processing
 
-2.1) Gaussian Denoise (denoise_image_gaussian_par)<br>
-Same as denoise_image_gaussian() function but in parallel
+4. **Parallel Gaussian Denoising** (`image_denoise_gaussian_par.rs`)
+   - Parallel version of Gaussian denoising
+   - Uses Rayon for thread management
+   - Configurable thread count
 
-## Basic Info
+### Improved Implementations
+Located in `src/improved/`:
 
-The code is in found src. <br><br>
-Noisy images are found in test_file directory. <br><br>
-Processed images are found in res_dump with names <b>xx.jpeg, xx_par.jpeg, xx_par_imp.jpeg, xx_gaussian.jpeg or xx_gaussian_par.jpeg </b> depending on the function used to denoise it. <br><br>
-AI denoised images have also been included to show some baseline for the performance of denoising algorithms. <br>
+1. **Improved Basic Denoising** (`img_denoise_improved.rs`)
+   - Enhanced averaging with weighted neighbors
+   - Better edge preservation
+   - Parallel processing with work stealing
 
-## Conclusion from project
+2. **Gaussian Denoising with LAB** (`img_denoise_gaussian_improved.rs`)
+   - Gaussian denoising in LAB color space
+   - Better color preservation
+   - Adaptive kernel weights
+   - Parallel processing with optimized thread distribution
+   - Edge-aware processing
 
-These denoising functions provide a simple and efficient way to reduce noise in images. <br>
-The basic denoising function (denoise_image) offers a simple averaging approach and is fast enough for smaller batches.<br>
-The basic denoising function in parallel (denoise_image_par) offers the same as above but we do not see the full benefit of parallel computing as the workload is not large enough.<br>
-The improved denoising function (denoise_image_imp) utilizes Gaussian blur for better noise reduction and is blaZingly fast for the quality if offers.<br>
+3. **Bilateral Filtering** (`img_denoise_bilateral.rs`)
+   - Edge-preserving denoising
+   - Separate spatial and range weights
+   - LAB color space processing
+   - Parallel implementation with work stealing
+   - Adaptive parameter tuning
+
+## Usage
+
+```rust
+// Example: Using the improved Gaussian denoising
+let denoised = denoise_image_gaussian_improved(
+    &image,
+    kernel_radius,  // Size of the neighborhood (e.g., 2)
+    sigma,         // Gaussian sigma for weight calculation (e.g., 1.5)
+    num_threads    // Number of threads for parallel processing (e.g., 4)
+);
+
+// Example: Using bilateral filtering
+let denoised = denoise_image_bilateral(
+    &image,
+    kernel_radius,  // Size of the neighborhood
+    sigma,         // Sigma for range weight calculation
+    num_threads    // Number of threads
+);
+```
+
+## Learning Outcomes
+
+This project demonstrates:
+- Computer vision algorithms and image processing
+- Parallel computing in Rust using Rayon
+- Color space transformations (RGB to LAB)
+- Memory management and optimization in Rust
+- Benchmarking and profiling techniques
+
+## Running Benchmarks
+
+```bash
+# Run all benchmarks
+cargo bench
+
+# Run specific benchmark
+cargo bench --bench denoising_benchmarks
+```
+
+The benchmarks compare:
+- All denoising algorithms (basic, Gaussian, bilateral)
+- Sequential vs parallel implementations
+- Different kernel sizes (2, 4, 6)
+- Various parameter configurations
+
+Benchmark Configuration:
+- 20 samples per test for statistical confidence
+- 15 seconds measurement time
+- 3 seconds warm-up time
+- 99% confidence level
+- 1% significance level
+- Flat sampling mode for consistent results
+
+## License
+
+MIT License - See LICENSE file for details

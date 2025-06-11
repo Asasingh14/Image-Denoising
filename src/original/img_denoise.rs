@@ -1,8 +1,5 @@
-use std::fs::File;
 use image::{GenericImageView, ImageBuffer, Rgb};
 use std::path::Path;
-use image::codecs::jpeg::JpegEncoder;
-use rayon::prelude::*;
 
 
 pub fn denoise_image(input_path: &str, output_path: &str) {

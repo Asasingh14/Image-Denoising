@@ -3,8 +3,6 @@ use std::path::Path;
 use image::{DynamicImage, GenericImageView, ImageBuffer, Rgb};
 use rayon::prelude::*;
 
-use rayon::prelude::*;
-
 pub fn denoise_image_gaussian_par(input_path: &str, output_path: &str, kernel_radius: f32, sigma: f32) { //Changed only this part to parallel
     let image = image::open(&Path::new(input_path)).unwrap();
     let (width, height) = image.dimensions();
